@@ -45,9 +45,16 @@ document.addEventListener('alpine:init', () => {
                 }
             }
             this.$nextTick(() => {
-                // 1. Hitung tinggi header untuk posisi awal sheet riwayat
-                this.headerHeight = document.getElementById('headerArea').offsetHeight;
-                this.sheetTop = this.headerHeight;
+                // Tinggi header bisa berubah setelah anggota/data selesai dimuat.
+                this.syncHeaderPosition();
+
+                const header = document.getElementById('headerArea');
+                if (header && typeof ResizeObserver !== 'undefined') {
+                    this.headerResizeObserver = new ResizeObserver(() => {
+                        this.$nextTick(() => this.syncHeaderPosition());
+                    });
+                    this.headerResizeObserver.observe(header);
+                }
                 
                 // 2. Pantau perubahan bulan untuk animasi garis bawah tab
                 this.$watch('$store.kas.activeMonth', () => {
@@ -65,12 +72,30 @@ document.addEventListener('alpine:init', () => {
                     });
                 }
 
-                // 5. Update ukuran jika layar di-resize
+                // Fallback untuk browser tanpa ResizeObserver.
                 window.addEventListener('resize', () => {
-                    this.headerHeight = document.getElementById('headerArea').offsetHeight;
+                    this.syncHeaderPosition();
                     this.moveTabIndicator();
                 });
             });
+        },
+
+        syncHeaderPosition() {
+            const header = document.getElementById('headerArea');
+            if (!header) return;
+
+            const previousHeight = this.headerHeight;
+            const nextHeight = header.offsetHeight;
+            if (!nextHeight) return;
+
+            const sheetWasCollapsed = Math.abs(this.sheetTop - previousHeight) <= 2;
+            this.headerHeight = nextHeight;
+
+            // Saat sheet berada di posisi awal, ikuti tinggi header yang baru.
+            // Jika sheet sedang dibuka atau diseret, pertahankan posisinya.
+            if (!this.isDragging && (sheetWasCollapsed || this.sheetTop > nextHeight)) {
+                this.sheetTop = nextHeight;
+            }
         },
 
         normalizeTransaction(tx) {
