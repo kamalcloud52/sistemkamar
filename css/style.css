@@ -35,6 +35,21 @@
     transition: none !important;
 }
 
+.status-spinner {
+    box-sizing: border-box;
+    width: 11px;
+    height: 11px;
+    flex: 0 0 11px;
+    border: 1.5px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: statusSpin 0.8s linear infinite;
+}
+
+@keyframes statusSpin {
+    to { transform: rotate(360deg); }
+}
+
 /* ==========================================================================
    3. ANIMASI AVATAR (MUNCUL DARI BAWAH)
    ========================================================================== */
