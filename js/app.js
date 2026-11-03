@@ -4,7 +4,8 @@ document.addEventListener('alpine:init', () => {
         // State Modal
         modals: { login: false, add: false, filter: false, members: false },
         admin: { authenticated: false, username: '', password: '' },
-        memberForm: { id: '', name: '', room: '' },
+        memberForm: { id: '', name: '', room: '', avatarUrl: '' },
+        avatarPreviewError: false,
         editingMemberName: null,
         connection: { mode: KasApi.mode, status: KasApi.isLive() ? 'loading' : 'demo', message: '' },
         selectedMember: null,
@@ -156,10 +157,16 @@ document.addEventListener('alpine:init', () => {
             return this.selectedMember ? (this.$store.kas.memberProfiles[this.selectedMember] || {}) : {};
         },
 
+        handleAvatarError(member) {
+            const profile = this.$store.kas.memberProfiles[member];
+            if (profile) profile.avatarUrl = '';
+        },
+
         editMember(member = null) {
             if (!this.admin.authenticated) return this.showToast('Login admin diperlukan untuk mengelola anggota');
             const profile = member ? (this.$store.kas.memberProfiles[member] || {}) : {};
-            this.memberForm = { id: profile.id || '', name: member || '', room: profile.room || '' };
+            this.memberForm = { id: profile.id || '', name: member || '', room: profile.room || '', avatarUrl: profile.avatarUrl || '' };
+            this.avatarPreviewError = false;
             this.editingMemberName = member;
             this.modals.members = true;
         },
@@ -167,11 +174,12 @@ document.addEventListener('alpine:init', () => {
         async saveMember() {
             const name = this.memberForm.name.trim();
             if (!name) return this.showToast('Nama anggota wajib diisi');
+            if (this.memberForm.avatarUrl && this.avatarPreviewError) return this.showToast('Link foto tidak dapat dimuat. Periksa raw link GitHub.');
             if (this.$store.kas.members.some(item => item.toLowerCase() === name.toLowerCase() && item !== this.editingMemberName)) {
                 return this.showToast('Nama anggota sudah terdaftar');
             }
             try {
-                const input = { ...this.memberForm, name };
+                const input = { ...this.memberForm, name, avatarUrl: (this.memberForm.avatarUrl || '').trim() };
                 const saved = KasApi.isLive() ? (await KasApi.saveMember(input)).member : { ...input, active: true };
                 const oldName = this.editingMemberName;
                 if (oldName && oldName !== name) this.$store.kas.members = this.$store.kas.members.map(item => item === oldName ? name : item);
@@ -185,7 +193,8 @@ document.addEventListener('alpine:init', () => {
                 if (oldName && oldName !== name) delete this.$store.kas.memberProfiles[oldName];
                 this.$store.kas.memberProfiles[name] = saved;
                 this.editingMemberName = null;
-                this.memberForm = { id: '', name: '', room: '' };
+                this.memberForm = { id: '', name: '', room: '', avatarUrl: '' };
+                this.avatarPreviewError = false;
                 this.modals.members = false;
                 this.showToast('Data anggota berhasil disimpan');
             } catch (error) {
