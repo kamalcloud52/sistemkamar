@@ -60,8 +60,7 @@
                 <span class="text-xs font-medium uppercase tracking-widest text-emerald-200/70 block">Saldo</span>
                 <div class="text-3xl font-black text-white mt-0.5 tracking-tight" x-text="formatRupiah($store.kas.balance)"></div>
                 <span x-show="connection.status === 'demo'" class="inline-flex mt-2 rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-semibold tracking-wide text-emerald-100/80">MODE PRATINJAU · DATA CONTOH</span>
-                <span x-show="connection.status === 'loading'" x-cloak class="inline-flex mt-2 rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-semibold tracking-wide text-emerald-100/80"><i class="fa-solid fa-spinner fa-spin mr-1"></i> MEMUAT DATA</span>
-                <span x-show="connection.status === 'ready'" x-cloak class="inline-flex mt-2 rounded-full border border-emerald-200/20 bg-emerald-300/10 px-2.5 py-1 text-[9px] font-semibold tracking-wide text-emerald-100"><i class="fa-solid fa-cloud mr-1"></i> TERSAMBUNG</span>
+                <span x-show="connection.status === 'loading'" x-cloak class="inline-flex items-center gap-1.5 mt-2 rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[9px] font-semibold tracking-wide text-emerald-100/80"><span class="status-spinner" aria-hidden="true"></span> MEMUAT DATA</span>
                 <span x-show="connection.status === 'error'" x-cloak class="inline-flex mt-2 rounded-full border border-red-200/20 bg-red-300/10 px-2.5 py-1 text-[9px] font-semibold tracking-wide text-red-100"><i class="fa-solid fa-triangle-exclamation mr-1"></i> GAGAL MEMUAT</span>
                 <button x-show="connection.status === 'error'" x-cloak @click="loadRemoteData()" class="ml-1 text-[9px] font-bold text-white underline underline-offset-2">Coba lagi</button>
             </div>
