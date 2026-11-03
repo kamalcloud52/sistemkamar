@@ -75,8 +75,9 @@
                         <button @click="openMemberProfile(member)" :aria-label="'Lihat biodata ' + member" 
                                 class="avatar-item flex flex-col items-center flex-1 min-w-[58px] group focus:outline-none"
                                 :style="`animation-delay: ${0.05 + (index * 0.07)}s`">
-                            <div class="w-12 h-12 rounded-full bg-white/10 border-2 border-emerald-400/60 flex items-center justify-center shadow-md group-hover:scale-105 group-hover:border-white transition-all">
-                                <i class="fa-solid fa-user text-emerald-300/80 text-xs"></i>
+                            <div class="relative w-12 h-12 overflow-hidden rounded-full bg-white/10 border-2 border-emerald-400/60 flex items-center justify-center shadow-md group-hover:scale-105 group-hover:border-white transition-all">
+                                <img x-show="$store.kas.memberProfiles[member]?.avatarUrl" :src="$store.kas.memberProfiles[member]?.avatarUrl" :alt="'Foto ' + member" @error="handleAvatarError(member)" class="absolute inset-0 w-full h-full object-cover">
+                                <i x-show="!$store.kas.memberProfiles[member]?.avatarUrl" class="fa-solid fa-user text-emerald-300/80 text-xs"></i>
                             </div>
                             <span class="text-[11px] font-semibold text-emerald-100 mt-1.5 group-hover:text-white" x-text="member"></span>
                         </button>
@@ -187,7 +188,10 @@
                     <button @click="selectedMember = null" aria-label="Tutup biodata" class="w-8 h-8 rounded-full bg-white/10 text-white/80 hover:bg-white/20 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="relative z-10 mt-7 flex items-center gap-4">
-                    <div class="w-[4.5rem] h-[4.5rem] rounded-[1.5rem] border border-white/25 bg-white/15 shadow-lg flex items-center justify-center text-2xl font-extrabold" x-text="selectedMember ? selectedMember.charAt(0).toUpperCase() : ''"></div>
+                    <div class="relative w-[4.5rem] h-[4.5rem] overflow-hidden rounded-[1.5rem] border border-white/25 bg-white/15 shadow-lg flex items-center justify-center text-2xl font-extrabold">
+                        <img x-show="selectedMemberProfile.avatarUrl" :src="selectedMemberProfile.avatarUrl" :alt="'Foto ' + selectedMember" @error="handleAvatarError(selectedMember)" class="absolute inset-0 w-full h-full object-cover">
+                        <span x-show="!selectedMemberProfile.avatarUrl" x-text="selectedMember ? selectedMember.charAt(0).toUpperCase() : ''"></span>
+                    </div>
                     <div>
                         <h3 class="text-2xl font-extrabold tracking-tight" x-text="selectedMember"></h3>
                     <p class="text-xs text-emerald-100/80 mt-1"><i class="fa-solid fa-circle-check mr-1"></i> Anggota KamarSeqawan</p>
@@ -246,9 +250,19 @@
                 <p class="text-xs font-bold text-slate-700" x-text="editingMemberName ? 'Edit anggota' : 'Tambah anggota'"></p>
                 <input type="text" x-model="memberForm.name" maxlength="80" required placeholder="Nama anggota" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-brand-600">
                 <input type="text" x-model="memberForm.room" maxlength="40" placeholder="Kamar (opsional)" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-brand-600">
+                <div>
+                    <label for="memberAvatarUrl" class="block text-[11px] font-semibold text-slate-600 mb-1">Link foto avatar (opsional)</label>
+                    <input id="memberAvatarUrl" type="url" x-model="memberForm.avatarUrl" @input="avatarPreviewError = false" maxlength="500" placeholder="https://raw.githubusercontent.com/..." class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:border-brand-600">
+                    <p class="mt-1 text-[10px] text-slate-400">Tempel direct/raw link gambar dari folder assets GitHub.</p>
+                    <div x-show="memberForm.avatarUrl && !avatarPreviewError" x-cloak class="mt-2 flex items-center gap-2 rounded-xl bg-white p-2">
+                        <img :src="memberForm.avatarUrl" alt="Pratinjau avatar" @error="avatarPreviewError = true" class="h-10 w-10 rounded-full object-cover border border-slate-200">
+                        <span class="text-[10px] font-semibold text-slate-500">Pratinjau foto</span>
+                    </div>
+                    <p x-show="avatarPreviewError" x-cloak class="mt-1 text-[10px] text-red-500">Foto tidak dapat dimuat. Periksa raw link dan akses file GitHub.</p>
+                </div>
                 <div class="flex gap-2">
                     <button type="submit" class="flex-1 rounded-xl bg-slate-900 py-2.5 text-xs font-bold text-white" x-text="editingMemberName ? 'Simpan perubahan' : 'Tambah anggota'"></button>
-                    <button x-show="editingMemberName" type="button" @click="editingMemberName = null; memberForm = { id: '', name: '', room: '' }" class="px-3 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600">Batal</button>
+                    <button x-show="editingMemberName" type="button" @click="editingMemberName = null; memberForm = { id: '', name: '', room: '', avatarUrl: '' }; avatarPreviewError = false" class="px-3 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600">Batal</button>
                 </div>
             </form>
             <div class="space-y-2">
