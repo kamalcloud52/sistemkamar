@@ -179,7 +179,7 @@
          x-transition:enter="transition-transform duration-600 ease-out" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
          x-transition:leave="transition-transform duration-450 ease-in" x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full"
          @click="selectedMember = null">
-        <section @click.stop class="relative w-full max-w-md overflow-hidden rounded-t-[2rem] sm:rounded-[2rem] bg-white shadow-2xl">
+        <section @click.stop class="modal-card relative w-full max-w-md overflow-hidden rounded-t-[2rem] sm:rounded-[2rem] bg-white shadow-2xl">
             <div class="relative overflow-hidden bg-gradient-to-br from-emerald-700 via-emerald-800 to-slate-900 px-6 pt-6 pb-10 text-white">
                 <div class="profile-orb profile-orb-one"></div><div class="profile-orb profile-orb-two"></div>
                 <div class="relative z-10 flex items-start justify-between">
@@ -237,7 +237,7 @@
          x-transition:enter="transition-transform duration-600 ease-out" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
          x-transition:leave="transition-transform duration-450 ease-in" x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full"
          @click="modals.members = false">
-        <section @click.stop class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
+        <section @click.stop class="modal-card bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
             <div class="flex items-center justify-between mb-5">
                 <div><h3 class="text-base font-bold text-slate-800">Kelola Anggota</h3><p class="text-xs text-slate-500 mt-1">Perbarui nama dan informasi kamar.</p></div>
                 <button @click="modals.members = false" aria-label="Tutup" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500"><i class="fa-solid fa-xmark"></i></button>
@@ -268,7 +268,7 @@
          x-transition:enter="transition-transform duration-600 ease-out" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
          x-transition:leave="transition-transform duration-450 ease-in" x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full"
          @click="modals.login = false">
-        <div @click.stop class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl">
+        <div @click.stop class="modal-card bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl">
             <div class="flex justify-between items-start mb-5">
                 <div>
                     <div class="w-10 h-10 rounded-xl bg-emerald-50 text-brand-700 flex items-center justify-center mb-3"><i class="fa-solid fa-shield-halved"></i></div>
@@ -301,7 +301,7 @@
         
         <!-- Isi kartu transaksi; transisi dikendalikan oleh pembungkus modal. -->
         <div @click.stop
-             class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar transform"
+             class="modal-card bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar transform"
              >
             
             <div class="flex justify-between items-center mb-4">
@@ -378,7 +378,7 @@
         
         <!-- Isi kartu filter; transisi dikendalikan oleh pembungkus modal. -->
         <div @click.stop
-             class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar transform"
+             class="modal-card bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar transform"
              >
             
             <div class="flex justify-between items-center mb-5">
