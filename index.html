@@ -175,7 +175,7 @@
     </div>
 
     <!-- ================= MODAL: Biodata Anggota ================= -->
-    <div x-show="selectedMember" x-cloak class="no-print fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+    <div x-show="selectedMember" x-cloak class="no-print fixed inset-0 bg-transparent z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
          x-transition:enter="transition-transform duration-600 ease-out" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
          x-transition:leave="transition-transform duration-450 ease-in" x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full"
          @click="selectedMember = null">
@@ -233,7 +233,7 @@
     </div>
 
     <!-- ================= MODAL: Kelola Anggota ================= -->
-    <div x-show="modals.members" x-cloak class="no-print fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+    <div x-show="modals.members" x-cloak class="no-print fixed inset-0 bg-transparent z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
          x-transition:enter="transition-transform duration-600 ease-out" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
          x-transition:leave="transition-transform duration-450 ease-in" x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full"
          @click="modals.members = false">
@@ -264,7 +264,7 @@
     </div>
 
     <!-- ================= MODAL: Login Admin ================= -->
-    <div x-show="modals.login" x-cloak class="no-print fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+    <div x-show="modals.login" x-cloak class="no-print fixed inset-0 bg-transparent z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
          x-transition:enter="transition-transform duration-600 ease-out" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
          x-transition:leave="transition-transform duration-450 ease-in" x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full"
          @click="modals.login = false">
@@ -294,7 +294,7 @@
 
     <!-- ================= MODAL: Tambah Transaksi ================= -->
     <!-- PEMBUNGKUS LUAR (Overlay) -->
-    <div x-show="modals.add" x-cloak class="no-print fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+    <div x-show="modals.add" x-cloak class="no-print fixed inset-0 bg-transparent z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
          x-transition:enter="transition-transform duration-600 ease-out" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
          x-transition:leave="transition-transform duration-450 ease-in" x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full"
          @click="closeAddModal()">
@@ -371,7 +371,7 @@
 
     <!-- ================= MODAL: Filter ================= -->
     <!-- PEMBUNGKUS LUAR (Overlay) -->
-    <div x-show="modals.filter" x-cloak class="no-print fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+    <div x-show="modals.filter" x-cloak class="no-print fixed inset-0 bg-transparent z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
          x-transition:enter="transition-transform duration-600 ease-out" x-transition:enter-start="translate-y-full" x-transition:enter-end="translate-y-0"
          x-transition:leave="transition-transform duration-450 ease-in" x-transition:leave-start="translate-y-0" x-transition:leave-end="translate-y-full"
          @click="modals.filter = false">
