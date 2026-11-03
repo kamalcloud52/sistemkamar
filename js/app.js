@@ -180,7 +180,15 @@ document.addEventListener('alpine:init', () => {
             }
             try {
                 const input = { ...this.memberForm, name, avatarUrl: (this.memberForm.avatarUrl || '').trim() };
-                const saved = KasApi.isLive() ? (await KasApi.saveMember(input)).member : { ...input, active: true };
+                let saved;
+                if (KasApi.isLive()) {
+                    saved = (await KasApi.saveMember(input)).member;
+                    if (!saved || !Object.prototype.hasOwnProperty.call(saved, 'avatarUrl')) {
+                        throw new Error('Apps Script belum menyimpan kolom avatar. Perbarui Code.gs dan deployment Apps Script.');
+                    }
+                } else {
+                    saved = { ...input, active: true };
+                }
                 const oldName = this.editingMemberName;
                 if (oldName && oldName !== name) this.$store.kas.members = this.$store.kas.members.map(item => item === oldName ? name : item);
                 else if (!oldName) this.$store.kas.members.push(name);
