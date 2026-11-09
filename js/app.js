@@ -370,11 +370,13 @@ document.addEventListener('alpine:init', () => {
             if (!this.form.desc || isNaN(amount) || amount <= 0) return this.showToast('Isi keterangan & nominal dengan benar');
             if (this.form.type === 'in' && this.form.members.length === 0) return this.showToast('Pilih minimal satu anggota');
 
-            const existing = this.editingTransactionId
+            const isEditing = this.editingTransactionId !== null && this.editingTransactionId !== undefined;
+            const existing = isEditing
                 ? this.$store.kas.transactions.find(tx => String(tx.id) === String(this.editingTransactionId))
                 : null;
+            if (isEditing && !existing) return this.showToast('Transaksi yang diedit tidak ditemukan. Muat ulang data lalu coba lagi.');
             const newTx = {
-                id: existing ? existing.id : Date.now(),
+                ...(existing ? { id: existing.id } : (!KasApi.isLive() ? { id: Date.now() } : {})),
                 date: existing ? existing.date : localISODate(),
                 type: this.form.type,
                 amount: amount,
